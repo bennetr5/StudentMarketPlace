@@ -1,24 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script type="text/javascript" src="../js/validate.js"></script>
+    <link rel="stylesheet" href="../public/css/style.css">
+    <script type="text/javascript" src="../app/controllers/loginController.js"></script>
 </head>
+
 <body>
     <div style="text-align:center">
         <h1>Login</h1>
         <form action="" id="login" method="POST" onsubmit="return validateLogin(this);">
             Email: <input name="email" type="email">
-                <br><br>
-            Password: <input name="password" type="password"> 
             <br><br>
-            <input  name="button" type="submit" value="Login">
+            Password: <input name="password" type="password">
+            <br><br>
+            <input name="button" type="submit" value="Login">
         </form>
         <br><br>
-        <a href="./home.html" class="button-class"> Go to Homepage </a>
+        <a href="./home" class="button-class"> Go to Homepage </a>
     </div>
+    <script type="module" src="../routes.js"></script>
+
 </body>
+
 </html>

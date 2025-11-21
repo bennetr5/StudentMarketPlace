@@ -1,3 +1,5 @@
+// Handles login operations (auth in seperate file eventually)
+
 function validateLogin(f) {
     const email = f.email.value
     const password = f.password.value
