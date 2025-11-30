@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>List an Item</title>
     <link rel="stylesheet" href="../public/css/style.css">
-    <script type="text/javascript" src="../js/validate.js"></script>
 </head>
 
 <body>
@@ -26,7 +25,7 @@
         </li>
     </ul>
     <br><br><br>
-    <form action="" method="POST" onsubmit="return validateListing(this);">
+    <form onsubmit="return false;">
         Product Name: <input type="text" name="itemName" id="itemNameID">
         <br><br>
         Product Description: 
@@ -57,7 +56,7 @@
         </select>
         <br><br>
         Price: <input type="text" placeholder="0.00" name="price" id="priceID">
-        <input type="submit" value="List Item">
+        <input type="button" value="List Item" id="listBtn">
     </form>
-    <script type="module" src="../routes.js"></script>
+    <script src="../public/sell.js"></script>
 </body>
