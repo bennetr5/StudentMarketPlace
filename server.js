@@ -1,10 +1,12 @@
 import express from 'express'
+import router from './app/routes.js'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url';
-import User from "./app/user.js";
-import Product from "./app/product.js";
+import product from './app/models/product.js'
+import user from './app/models/user.js'
+
 
 // Express
 const app = express();
@@ -27,29 +29,8 @@ mongoose.connect(MONGO_URL)
 .catch((error) => { console.log(error)})
 
 // Middleware
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("app"))
 
-// Routes
-app.get('/', (req, res) => {
-    res.redirect('/login')
-})
-
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, "app/views/login.html"))
-})
-
-app.get('/home', (req, res) => {
-    res.sendFile(path.join(__dirname, "app/views/home.html"))
-})
-
-app.get('/sell', (req, res) => {
-    res.sendFile(path.join(__dirname, "app/views/sell.html"))
-})
-
-app.get('/profile', (req, res) => {
-    res.sendFile(path.join(__dirname, "app/views/profile.html"))
-})
-
-app.get('/product', (req, res) => {
-    res.sendFile(path.join(__dirname, "app/views/product.html"))
-})
+app.use('/', router)

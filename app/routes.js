@@ -1,22 +1,23 @@
-import loginController from './controllers/loginController.js'
-import productController from './controllers/productController.js'
-import profileController from './controllers/profileController.js'
-import sellController from './controllers/sellController.js'
-import homeController from './controllers/homeController.js'
+import express from 'express'
 
-// Define routes
-const routes = {
-    "login.html": loginController,
-    "product.html": productController,
-    "profile.html": profileController,
-    "sell.html": sellController,
-    "home.html": homeController
-}
+import { redirectLogin } from './controllers/loginController.js'
+import { login } from './controllers/loginController.js'
+import { listItem } from './controllers/sellController.js'
+import { sell } from './controllers/sellController.js'
+import { home } from './controllers/homeController.js'
+import { product } from './controllers/productController.js'
+import { profile } from './controllers/profileController.js'
 
-// Gets current page
-const page = window.location.pathname.split("/").pop()
+const router = express.Router()
 
-// Init Controller
-if(routes[page]) {
-    routes[page]()
-}
+// Routes
+router.get('/', redirectLogin)
+router.get('/login', login)
+router.get('/home', home)
+router.get('/sell', sell)
+router.get('/product', product)
+router.get('/profile', profile)
+
+router.post('/sell', listItem)
+
+export default router
