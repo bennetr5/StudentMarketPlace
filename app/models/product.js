@@ -6,7 +6,7 @@ const productSchema = new Schema ({
         type: String, required: true
     },
     images: {
-        type: Buffer, required: true
+        type: [String], required: true
     },
     description: {
         type: String, default: ""
