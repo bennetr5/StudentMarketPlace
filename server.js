@@ -4,9 +4,6 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url';
-import product from './app/models/product.js'
-import user from './app/models/user.js'
-
 
 // Express
 const app = express();

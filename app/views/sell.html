@@ -25,12 +25,14 @@
         </li>
     </ul>
     <br><br><br>
-    <form onsubmit="return false;">
-        Product Name: <input type="text" name="itemName" id="itemNameID">
+    <form onsubmit="return false;" enctype="multipart/form-data" id="sellForm">
+        Upload Images <input type="file" name="images" id="imagesID" multiple>
+        <br><br>
+        Product Name: <input type="text" name="title" id="itemNameID">
         <br><br>
         Product Description: 
         <br><br>
-        <textarea style="resize: none;" rows="10" cols="40" placeholder="Enter a short description here" name="itemDesc" id="itemDescID"></textarea>
+        <textarea style="resize: none;" rows="10" cols="40" placeholder="Enter a short description here" name="description" id="itemDescID"></textarea>
         <span style="font-size: 12px" id="charCount">0/200</span>
         <script>
             const chars = document.getElementById("charCount")
@@ -46,7 +48,7 @@
             })
         </script>
         <br><br>
-        Product Type: <select name="itemType" id="typeID">
+        Product Type: <select name="productType" id="typeID">
             <option value=""></option>
             <option value="Electronic">Electronic</option>
             <option value="Book">Book</option>

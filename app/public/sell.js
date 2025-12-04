@@ -1,19 +1,21 @@
-// TO DO
+//TO DO
 // Will handle any operations for the sell page
-function listItem(event) {
+function submitListing(event) {
     event.preventDefault()
 
-    const title = document.getElementById('itemNameID').value
-    const description = document.getElementById('itemDescID').value
-    const productType = document.getElementById('typeID').value
-    const price = document.getElementById('priceID').value
+    const form = document.getElementById("sellForm")
+    const formData = new FormData(form)
 
     fetch('/sell', {
         method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description, productType, price })
+        body: formData,
     })
     .then(res => res.json())
+    .then(data => {
+        if (data.redirect) {
+            window.location.href = data.redirect
+        }
+    })
 }
 
-document.getElementById("listBtn").addEventListener('click', listItem)
+document.getElementById("listBtn").addEventListener('click', submitListing)
