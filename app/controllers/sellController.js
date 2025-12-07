@@ -55,5 +55,5 @@ export async function listItem(req, res) {
 }
 
 export async function sell(req, res) {
-    res.sendFile(path.join(__dirname, "../views/sell.html"))
+    res.sendFile(path.join(__dirname, "../public/views/sell.html"))
 }

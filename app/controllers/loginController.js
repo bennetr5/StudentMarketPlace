@@ -9,7 +9,7 @@ export function redirectLogin(req, res) {
 }
 
 export function login(req, res) {
-    res.sendFile(path.join(__dirname, '../views/login.html'))
+    res.sendFile(path.join(__dirname, '../public/views/login.html'))
 }
 
 export function validateLogin(req, res, next) {
