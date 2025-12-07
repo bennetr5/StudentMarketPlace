@@ -4,6 +4,9 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url';
+import session from 'express-session'
+import passport from 'passport'
+import passportConfig from './app/controllers/passport.js'
 
 // Express
 const app = express();
@@ -28,6 +31,16 @@ mongoose.connect(MONGO_URL)
 // Middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("app"))
+app.use(express.static('app'))
+app.use('/uploads', express.static(path.join(__dirname, 'app/models/uploads')))
+
+app.use(session({
+    secret: "1234",
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+passportConfig(passport)
 
 app.use('/', router)

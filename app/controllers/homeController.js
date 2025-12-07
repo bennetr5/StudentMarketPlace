@@ -2,10 +2,21 @@
 // Will handle any backend operations for the home page
 import path from 'path'
 import { fileURLToPath } from 'url'
+import product from '../models/product.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-export async function home(req, res) {
-    res.sendFile(path.join(__dirname, "../views/home.html"))
+export async function getListings(req, res) {
+    try {
+        const listings = await product.find().populate("seller")
+        return res.json(listings)
+    } catch (err) {
+        console.log("Error loading home page:", err)
+        return res.status(500).send("Failed to load home page")
+    }
+}
+
+export async function homePage(req, res) {
+    res.sendFile(path.join(__dirname, "../views/home.html"));
 }
