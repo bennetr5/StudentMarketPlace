@@ -12,17 +12,17 @@ export async function listItem(req, res) {
     const desc = req.body.description
     const prodType = req.body.productType
     const price = req.body.price
-    const imagePaths = req.files.map(file => file.path)
+    const imagePaths = req.files.map(file => file.filename);
     try {
         // TO-DO Upload Listing
-        console.log("Uploading listing to test user: ")
+        console.log("Uploading listing to :", req.user)
         console.log('Body: ', req.body.title)
         console.log('Files: ', req.files)
 
-        const listingUser = await user.findOne({ username: 'testUser' })
+        const listingUser = req.user
 
         const newListing = await product.create({
-            images: imagePaths,
+            images: imagePaths.map(p => "/uploads/" + p),
             title: title, 
             description: desc,
             type: prodType,
@@ -38,16 +38,16 @@ export async function listItem(req, res) {
     }
     catch(error) {
         console.log("Failed to list item:", error)
-        for (const imagePath of imagePaths) {
-            fs.unlink(imagePath, (err) => {
+        for (const img of imagePaths) {
+            const imgPath = path.join("app/models/uploads/", img)
+            fs.unlink(imgPath, (err) => {
                 if (err) {
                     console.log("Error deleting file", err)
                 }
                 else {
-                    console.log("Deleted: ", imagePath)
+                    console.log("Deleted: ", imgPath)
                 }
             })
-            
         }
         return res.status(400).send("Fail to list item")
     }

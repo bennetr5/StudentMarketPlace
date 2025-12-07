@@ -21,7 +21,12 @@
             <a href="./sell" class="button-class"> List </a>
         </li>
         <li>
-            <a href="./login" class="button-class"> Logout </a>
+            <form action="/logout" method="POST">
+                <button type="submit" class="button-class">Logout</button>
+            </form>        
         </li>
     </ul>
+    <br><br>
+    <div id="userListings"></div>
+    <script src="../public/profile.js"></script>
 </body>

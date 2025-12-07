@@ -23,3 +23,48 @@ ul li a:hover {
 body {
     font-family: "Arial", sans-serif;
 }
+ul li form {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+ul li form button {
+    display: block;
+    background: none;
+    border: none;
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    font: inherit;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+ul li form button:hover {
+    background-color: lightgray;
+    font-weight: bold;
+}
+
+#listings {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+.listing-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+.listing-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.login-btn {
+    transform: scale(1.2);
+}
