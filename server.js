@@ -31,7 +31,7 @@ mongoose.connect(MONGO_URL)
 // Middleware
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('app'))
+app.use(express.static(path.join(__dirname, 'app/public')))
 app.use('/uploads', express.static(path.join(__dirname, 'app/models/uploads')))
 
 app.use(session({

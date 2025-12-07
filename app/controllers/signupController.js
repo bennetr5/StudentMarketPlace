@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 export function signup(req, res) {
-    res.sendFile(path.join(__dirname, '../views/signup.html'))
+    res.sendFile(path.join(__dirname, '../public/views/signup.html'))
 }
 
 export async function createAccount(req, res) {

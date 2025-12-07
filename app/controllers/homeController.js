@@ -18,5 +18,5 @@ export async function getListings(req, res) {
 }
 
 export async function homePage(req, res) {
-    res.sendFile(path.join(__dirname, "../views/home.html"));
+    res.sendFile(path.join(__dirname, "../public/views/home.html"));
 }
