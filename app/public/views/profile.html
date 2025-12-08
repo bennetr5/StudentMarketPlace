@@ -9,23 +9,21 @@
 </head>
 
 <body>
-    <h1>Profile</h1>
+    <h1 id="usernameDisplay"></h1>
     <ul>
-        <li>
-            <a href="./home" class="button-class"> Home </a>
-        </li>
-        <li>
-            <a href="./profile" class="button-class"> Profile </a>
-        </li>
-        <li>
-            <a href="./sell" class="button-class"> List </a>
-        </li>
+        <li><a href="./home" class="button-class"> Home </a></li>
+        <li><a href="./profile" class="button-class"> Profile </a></li>
+        <li><a href="./sell" class="button-class"> List </a></li>
         <li>
             <form action="/logout" method="POST">
                 <button type="submit" class="button-class">Logout</button>
-            </form>        
+            </form>
         </li>
     </ul>
     <br><br>
     <div id="userListings"></div>
+
+    <!-- 🔹 This must point to /app/public/profile.js -->
+    <script src="../profile.js"></script>
 </body>
+</html>

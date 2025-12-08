@@ -8,7 +8,7 @@ import { signup, createAccount } from './controllers/signupController.js'
 import { listItem, sell } from './controllers/sellController.js'
 import { getListings, homePage } from './controllers/homeController.js'
 import { product } from './controllers/productController.js'
-import { profile } from './controllers/profileController.js'
+import { getUserListings, profile } from './controllers/profileController.js'
 
 const router = express.Router()
 const storage = multer.diskStorage({
@@ -33,6 +33,16 @@ router.get('/home', checkAuth, homePage)
 router.get('/sell', checkAuth, sell)
 router.get('/product', checkAuth, product)
 router.get('/profile', checkAuth, profile)
+router.get("/api/profile/listings", checkAuth, getUserListings)
+router.get('/api/user', checkAuth, (req, res) => {
+    res.json({
+        id: req.user._id,
+        username: req.user.username,
+        email: req.user.email
+    })
+})
+router.get('/api/profile/listings', checkAuth, getUserListings)
+
 
 router.post('/sell', upload.array('images', 10), listItem)
 router.post('/signup', createAccount)
