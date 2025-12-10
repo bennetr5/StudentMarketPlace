@@ -1,0 +1,151 @@
+/* --- 1. Global & Background --- */
+body {
+    font-family: "Arial", sans-serif;
+    /* Looks for the file at app/public/Paper-Texture-3.jpeg */
+    background-image: url('/paper-texture.jpg');
+    background-size: cover;       /* Ensures image covers the whole screen */
+    background-position: center;  /* Centers the image */
+    background-attachment: fixed; /* Keeps background still while scrolling */
+    background-repeat: no-repeat;
+    margin: 0;                    /* Removes default margin so banner touches edges */
+}
+
+/* --- 2. New Navigation Banner (Replaces old 'ul' styles) --- */
+.navbar {
+    background-color: #9CC6DB;    /* Specified Banner Color */
+    height: 120px;
+    display: flex;
+    justify-content: space-between; /* Pushes 'Home' to left, 'Profile' to right */
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Banner Drop Shadow */
+    position: relative;
+    z-index: 10;                  /* Ensures banner sits above everything else */
+}
+
+/* Style for the "Home" link */
+.nav-brand a {
+    text-decoration: none;
+    color: black;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+/* --- 3. Profile Picture --- */
+.profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* Makes the image a perfect circle */
+    cursor: pointer;    /* Shows a hand cursor when hovering */
+    border: 2px solid white;
+    object-fit: cover;  /* Prevents image stretching */
+    transition: transform 0.2s;
+}
+
+.profile-pic:hover {
+    transform: scale(1.1); /* Slightly grows when you hover */
+}
+
+/* --- 4. Slide-Out Menu (Hidden by default) --- */
+.slide-menu {
+    position: fixed;
+    top: 125px;       /* Starts right below the 60px navbar */
+    right: -250px;   /* Hides it off-screen to the right */
+    width: 200px;
+    background-color: white;
+    box-shadow: -2px 5px 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease-in-out; /* Smooth sliding animation */
+    display: flex;
+    flex-direction: column;
+    z-index: 9;
+}
+
+/* JavaScript toggles this class to make the menu appear */
+.slide-menu.open {
+    right: 0;
+}
+
+/* Styling links inside the slide-out menu */
+.slide-menu a, .slide-menu form button {
+    padding: 15px 20px;
+    text-decoration: none;
+    color: black;
+    border-bottom: 1px solid #eee;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.slide-menu a:hover, .slide-menu form button:hover {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+/* --- 5. Listings Grid --- */
+#listings {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    padding: 20px; /* Padding so cards don't touch screen edges */
+}
+
+/* --- 6. Card Styling (Drop Shadows & Colors) --- */
+/* --- Update this existing class --- */
+.listing-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    
+    /* ADD THIS LINE */
+    position: relative; /* Allows the trash can to stay inside the card boundaries */
+}
+
+/* Cycle through the 3 palette colors for every card */
+.listing-card:nth-child(3n+1) {
+    background-color: #FCF6D9;
+}
+
+.listing-card:nth-child(3n+2) {
+    background-color: #CF4B00;
+    color: white; /* White text for better contrast on dark orange */
+}
+
+.listing-card:nth-child(3n+3) {
+    background-color: #DDBA7D;
+}
+
+.listing-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.login-btn {
+    transform: scale(1.2);
+}
+
+/* --- Add this new class --- */
+.delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 25px;  /* Adjust size based on your icon */
+    height: 25px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: transform 0.2s, opacity 0.2s;
+    z-index: 5;
+}
+
+.delete-btn:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
