@@ -1,45 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
     <link rel="stylesheet" href="../css/style.css">
-    <title>Product</title>
 </head>
-
 <body>
-    <ul>
-        <li>
-            <a href="/home" class="button-class"> Home </a>
-        </li>
-        <li>
-            <a href="/profile" class="button-class"> Profile </a>
-        </li>
-        <li>
-            <a href="/sell" class="button-class"> List </a>
-        </li>
-        <li>
-            <form action="/logout" method="POST">
-                <button type="submit" class="button-class">Logout</button>
-            </form>
-        </li>
-    </ul>
-    <br><br>
-    <h1>Product</h1>
-    <br><br>
-    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-        <img src="" style="max-width: 30%; height: auto; border-radius: 4px;" id="images">
-        <br><br>
-        <div style="display: flex; gap: 36px;">
-            <div id="title"></div>
-            <span id="price"></span>
-        </div>
-        <div id="description"></div>
-        <br><br>
-        Interested? Contact the seller <a id="sellerEmail">Contact</a>
+    <nav class="navbar">
+        <div class="nav-brand"><a href="/home">Back to Home</a></div>
+    </nav>
+
+    <div id="slideMenu" class="slide-menu">
+        <a href="/home">Marketplace</a>
+        <a href="/profile">My Listings</a>
+        <a href="/sell">List an Item</a>
+        <form action="/logout" method="POST">
+            <button type="submit">Logout</button>
+        </form>
     </div>
+
+    <div style="max-width: 800px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px;">
+        <h1 id="prodTitle">Loading...</h1>
+        
+        <div id="imageContainer" style="margin-bottom: 20px;">
+            </div>
+
+        <h2 id="prodPrice" style="color: green;"></h2>
+        <p><strong>Type:</strong> <span id="prodType"></span></p>
+        
+        <h3>Description</h3>
+        <p id="prodDesc"></p>
+
+        <hr>
+        
+        <h3>Seller Contact</h3>
+        <p><strong>Email:</strong> <a id="sellerEmail" href="#">Loading...</a></p>
+    </div>
+
     <script src="../product.js"></script>
 </body>
-
 </html>

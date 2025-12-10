@@ -3,13 +3,11 @@ import passport from 'passport'
 import bcrypt from "bcrypt"
 import User from '../models/user.js'
 
-// Authenticates user with passport
 export default function(passport) {
     passport.use(
         new LocalStrategy(
             { usernameField: "username" },
             async (username, password, done) => {
-                // Attempts to find user in database
                 try {
                     const user = await User.findOne({ username: username })
                     if (!user) {
@@ -21,7 +19,6 @@ export default function(passport) {
                         return done(null, false, {message: "Incorrect Password"})
                     }
 
-                    // Completes authentication and returns user
                     return done(null, user)
                 }
                 catch(err) {
@@ -32,12 +29,10 @@ export default function(passport) {
     )
 }
 
-// Serializes user
 passport.serializeUser((user,done) => {
     done(null, user.id)
 })
 
-// Deserializes user
 passport.deserializeUser(async (id, done) => {
     try {
         const user = await User.findById(id)
