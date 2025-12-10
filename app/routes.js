@@ -3,42 +3,59 @@ import multer from "multer";
 import path from 'path';
 import passport from 'passport';
 
-import { redirectLogin, login, validateLogin, checkAuth, logout} from './controllers/loginController.js'
+// Import your specific controllers
+import { redirectLogin, login, validateLogin, checkAuth, logout } from './controllers/loginController.js'
 import { signup, createAccount } from './controllers/signupController.js'
-import { listItem, sell } from './controllers/sellController.js'
+import { listItem, sell, editPage, updateItem  } from './controllers/sellController.js'
 import { getListings, homePage } from './controllers/homeController.js'
-import { getProduct, product } from './controllers/productController.js'
-import { getUserListings, profile } from './controllers/profileController.js'
+import { product, getProductData } from './controllers/productController.js'
+// FIXED: Combined imports into one line
+import { getUserListings, profile, deleteListing } from './controllers/profileController.js' 
 
-// Set up router
 const router = express.Router()
 
-// Defines location for uploaded files
+// Configure Multer for Image Uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
+        // This path must match the static serve path in server.js
         cb(null, 'app/models/uploads');
     },
-    // Hashes original file name to unique name
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
-        const hashName = file.filename || Date.now().toString(36);
+        // Create a unique filename to avoid overwrites
+        const hashName = Date.now().toString(36) + Math.random().toString(36).substr(2);
         cb(null, hashName + ext);
     }
 });
 
 const upload = multer({ storage });
 
-// Routes
+// --- VIEW ROUTES (Serve HTML Pages) ---
 router.get('/', redirectLogin)
 router.get('/login', login)
 router.get('/signup', signup)
-router.get('/home/listings', checkAuth, getListings)
+
+// Protected Views (Require Login)
 router.get('/home', checkAuth, homePage)
 router.get('/sell', checkAuth, sell)
-router.get('/product/:id', checkAuth, product)
-router.get('/api/product/:id', checkAuth, getProduct)
 router.get('/profile', checkAuth, profile)
-router.get("/api/profile/listings", checkAuth, getUserListings)
+router.get('/product', checkAuth, product) 
+
+// --- API ROUTES (Data for Frontend JS) ---
+router.get('/home/listings', checkAuth, getListings)            // Feeds home.html
+router.get('/api/profile/listings', checkAuth, getUserListings) // Feeds profile.html
+router.get('/product/:id', checkAuth, product)           // Feeds product.html
+router.get('/api/product/:id', checkAuth, getProductData)           // Feeds product.html
+
+// Delete Route
+router.delete('/api/profile/listings/:id', checkAuth, deleteListing);
+
+// Serve the Edit Page (View)
+router.get('/edit', checkAuth, editPage);
+// API Route to Update the Item (PUT)
+router.put('/api/product/:id', checkAuth, updateItem);
+
+// Simple API to get current user info
 router.get('/api/user', checkAuth, (req, res) => {
     res.json({
         id: req.user._id,
@@ -46,14 +63,19 @@ router.get('/api/user', checkAuth, (req, res) => {
         email: req.user.email
     })
 })
+
+// --- ACTION ROUTES (Form Submissions) ---
 router.post('/sell', upload.array('images', 10), listItem)
 router.post('/signup', createAccount)
+router.post('/logout', logout) 
+
+// Login Handling (Uses Passport Strategy)
 router.post('/login', validateLogin,
     passport.authenticate('local', {
         successRedirect: '/home',
         failureRedirect: '/login',
-        failureMessage: true
-    }))
-router.post('/logout', logout) 
+        // failureMessage: true 
+    })
+)
 
 export default router

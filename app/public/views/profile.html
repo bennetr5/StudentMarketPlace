@@ -9,22 +9,42 @@
 </head>
 
 <body>
-    <ul>
-        <li><a href="./home" class="button-class"> Home </a></li>
-        <li><a href="./profile" class="button-class"> Profile </a></li>
-        <li><a href="./sell" class="button-class"> List </a></li>
-        <li>
-            <form action="/logout" method="POST">
-                <button type="submit" class="button-class">Logout</button>
-            </form>
-        </li>
-    </ul>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="/profile" id="usernameDisplay">My Listings</a>
+        </div>
+        <div class="nav-profile">
+            <img src="/profile-photo.jpg" alt="Profile" id="profilePic" class="profile-pic">
+        </div>
+    </nav>
+
+    <div id="slideMenu" class="slide-menu">
+        <a href="/home">Marketplace</a>
+        <a href="/sell">List an Item</a>
+        <form action="/logout" method="POST">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
     <br><br>
-    <h1 id="usernameDisplay"></h1>
-    <br><br>
-    
     <div id="userListings"></div>
 
     <script src="../profile.js"></script>
+
+    <script>
+        const profilePic = document.getElementById('profilePic');
+        const slideMenu = document.getElementById('slideMenu');
+
+        profilePic.addEventListener('click', function(event) {
+            slideMenu.classList.toggle('open');
+            event.stopPropagation();
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!slideMenu.contains(event.target) && event.target !== profilePic) {
+                slideMenu.classList.remove('open');
+            }
+        });
+    </script>
 </body>
 </html>

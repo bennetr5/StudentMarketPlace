@@ -1,20 +1,35 @@
-// Handles any operations with the product page
 import path from 'path'
 import { fileURLToPath } from 'url'
-import Product from '../models/product.js'
-import User from '../models/user.js'
+import Product from '../models/product.js' // Make sure this matches your model filename exactly
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Sends back product data to frontend
-export async function getProduct(req, res) {
-    const item = await Product.findById(req.params.id).populate('seller')
-    const sellerEmail = item.seller.email
-    res.json({item, sellerEmail})
-}
-
-// Loads product.html
+// 1. Serve the HTML file
 export async function product(req, res) {
     res.sendFile(path.join(__dirname, "../public/views/product.html"))
+}
+
+// 2. API to fetch product data (New Function)
+export async function getProductData(req, res) {
+    try {
+        // The frontend will request /api/product/id
+        const productId = req.params.id;
+        
+        if (!productId) {
+            return res.status(400).json({ error: "No product ID provided" });
+        }
+
+        // Find product and populate seller info (username/email)
+        const productItem = await Product.findById(productId).populate('seller', 'username email');
+        
+        if (!productItem) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+
+        return res.json(productItem);
+    } catch (err) {
+        console.log("Error loading product data:", err);
+        return res.status(500).json({ error: "Failed to load product" });
+    }
 }
