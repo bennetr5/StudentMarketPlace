@@ -5,31 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <title>Document</title>
+    <title>Product</title>
 </head>
 
 <body>
-    <h1>Product</h1>
     <ul>
         <li>
-            <a href="./home" class="button-class"> Home </a>
+            <a href="/home" class="button-class"> Home </a>
         </li>
         <li>
-            <a href="./profile" class="button-class"> Profile </a>
+            <a href="/profile" class="button-class"> Profile </a>
         </li>
         <li>
-            <a href="./sell" class="button-class"> List </a>
+            <a href="/sell" class="button-class"> List </a>
         </li>
         <li>
             <form action="/logout" method="POST">
                 <button type="submit" class="button-class">Logout</button>
-            </form>        
+            </form>
         </li>
     </ul>
     <br><br>
-    <img src="./images/calc.jpg" width="115" height="150">
-    Price: $10.50
-    <br>
-    Calculator to use for introductory math classes, in good condition.
+    <h1>Product</h1>
+    <br><br>
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <img src="" style="max-width: 30%; height: auto; border-radius: 4px;" id="images">
+        <br><br>
+        <div style="display: flex; gap: 36px;">
+            <div id="title"></div>
+            <span id="price"></span>
+        </div>
+        <div id="description"></div>
+        <br><br>
+        Interested? Contact the seller <a id="sellerEmail">Contact</a>
+    </div>
+    <script src="../product.js"></script>
 </body>
+
 </html>

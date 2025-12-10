@@ -7,14 +7,18 @@ import { redirectLogin, login, validateLogin, checkAuth, logout} from './control
 import { signup, createAccount } from './controllers/signupController.js'
 import { listItem, sell } from './controllers/sellController.js'
 import { getListings, homePage } from './controllers/homeController.js'
-import { product } from './controllers/productController.js'
+import { getProduct, product } from './controllers/productController.js'
 import { getUserListings, profile } from './controllers/profileController.js'
 
+// Set up router
 const router = express.Router()
+
+// Defines location for uploaded files
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'app/models/uploads');
     },
+    // Hashes original file name to unique name
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
         const hashName = file.filename || Date.now().toString(36);
@@ -31,7 +35,8 @@ router.get('/signup', signup)
 router.get('/home/listings', checkAuth, getListings)
 router.get('/home', checkAuth, homePage)
 router.get('/sell', checkAuth, sell)
-router.get('/product', checkAuth, product)
+router.get('/product/:id', checkAuth, product)
+router.get('/api/product/:id', checkAuth, getProduct)
 router.get('/profile', checkAuth, profile)
 router.get("/api/profile/listings", checkAuth, getUserListings)
 router.get('/api/user', checkAuth, (req, res) => {
@@ -41,9 +46,6 @@ router.get('/api/user', checkAuth, (req, res) => {
         email: req.user.email
     })
 })
-router.get('/api/profile/listings', checkAuth, getUserListings)
-
-
 router.post('/sell', upload.array('images', 10), listItem)
 router.post('/signup', createAccount)
 router.post('/login', validateLogin,

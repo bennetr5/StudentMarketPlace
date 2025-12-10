@@ -1,4 +1,3 @@
-// TO DO
 // Will handle any backend operations for the home page
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -7,6 +6,7 @@ import product from '../models/product.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// Gets all listings in Database and sends to frontend
 export async function getListings(req, res) {
     try {
         const listings = await product.find().populate("seller")
@@ -17,6 +17,7 @@ export async function getListings(req, res) {
     }
 }
 
+// Loads home.html page
 export async function homePage(req, res) {
     res.sendFile(path.join(__dirname, "../public/views/home.html"));
 }

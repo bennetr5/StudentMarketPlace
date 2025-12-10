@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 const { Schema, Types } = mongoose;
 
+// User schema for MONGODB
 const userSchema = new Schema ({
     username: {
         type: String, required: true, unique: true
