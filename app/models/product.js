@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 const { Schema, Types } = mongoose;
 
+// Product schema for MONGODB
 const productSchema = new Schema ({
     title: {
         type: String, required: true

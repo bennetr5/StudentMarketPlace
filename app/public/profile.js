@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        // 1) Get current user
+        // Get current user
         const userRes = await fetch("/api/user")
         if (!userRes.ok) {
             showMessage("Error loading user.")
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const user = await userRes.json()
         usernameHeader.textContent = `${user.username}'s Listings`
 
-        // 2) Get this user's product listings
+        // Get user product listings
         const listRes = await fetch("/api/profile/listings")
         if (!listRes.ok) {
             showMessage("Error loading listings.")
@@ -31,21 +31,20 @@ document.addEventListener("DOMContentLoaded", async () => {
             return
         }
 
-        // 3) Render each product similar to home
+        // Displays each product
         listingsDiv.innerHTML = ""
         listings.forEach(p => {
-            const card = document.createElement("div")
+            const card = document.createElement("button")
+            card.addEventListener("click", () => goToProduct(p))
             card.className = "listing-card"
 
             const firstImg = Array.isArray(p.images) && p.images.length > 0 ? p.images[0] : null
-
+            
             card.innerHTML = `
                 ${firstImg ? `<img src="${firstImg}" width="120" />` : ""}
                 <h3>${p.title}</h3>
-                <p>${p.description || ""}</p>
                 <p><strong>$${p.price}</strong></p>
             `
-
             listingsDiv.appendChild(card)
         })
     } catch (err) {
@@ -53,3 +52,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         showMessage("Unexpected error loading profile.")
     }
 })
+
+function goToProduct(listing) {
+    window.location.href = `/product/${listing._id}`
+}
