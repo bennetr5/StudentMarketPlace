@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="/profile" id="usernameDisplay">My Listings</a>
+        </div>
+        <div class="nav-profile">
+            <img src="/profile-photo.jpg" alt="Profile" id="profilePic" class="profile-pic">
+        </div>
+    </nav>
+
+    <div id="slideMenu" class="slide-menu">
+        <a href="/home">Marketplace</a>
+        <a href="/sell">List an Item</a>
+        <form action="/logout" method="POST">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
+    <br><br>
+    <div id="userListings"></div>
+
+    <script src="../profile.js"></script>
+
+    <script>
+        const profilePic = document.getElementById('profilePic');
+        const slideMenu = document.getElementById('slideMenu');
+
+        profilePic.addEventListener('click', function(event) {
+            slideMenu.classList.toggle('open');
+            event.stopPropagation();
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!slideMenu.contains(event.target) && event.target !== profilePic) {
+                slideMenu.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>
