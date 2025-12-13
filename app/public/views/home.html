@@ -5,93 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        /* --- UI Styles --- */
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-right: 20px;
-        }
-
-        .search-container {
-            display: flex;
-        }
-
-        #searchInput {
-            padding: 5px;
-            border-radius: 4px 0 0 4px;
-            border: 1px solid #ccc;
-        }
-
-        #searchBtn {
-            padding: 5px 10px;
-            border: 1px solid #ccc;
-            border-left: none;
-            background: #eee;
-            cursor: pointer;
-            border-radius: 0 4px 4px 0;
-        }
-
-        /* Filter Styles */
-        .filter-container {
-            position: relative;
-            cursor: pointer;
-        }
-        
-        #filterDropdown {
-            display: none; 
-            position: absolute;
-            right: 0;
-            top: 40px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1000;
-            width: 150px;
-        }
-
-        #filterDropdown div {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        #filterDropdown div:hover {
-            background-color: #f0f0f0;
-        }
-
-        .show {
-            display: block !important;
-        }
-
-        /* --- CARD STYLES --- */
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 8px; 
-            width: 250px;           
-            height: 380px;          
-            padding: 15px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-            transition: transform 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card img {
-            width: 100%; 
-            height: 250px; /* Fixed height for image */
-            object-fit: cover;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-    </style>
 </head>
 
 <body>
@@ -105,7 +18,7 @@
             </div>
 
             <div class="filter-container">
-                <img src="/Filter.png" alt="Filter" id="filterIcon" style="height: 30px; width: 30px;">
+                <img src="../views/images/Filter.png" alt="Filter" id="filterIcon" style="height: 30px; width: 30px;">
                 <div id="filterDropdown">
                     <div onclick="filterListings('All')">All</div>
                     <div onclick="filterListings('Electronics')">Electronics</div>
@@ -116,7 +29,7 @@
             </div>
 
             <div class="nav-profile">
-                <img src="/profile-photo.jpg" alt="Profile" id="profilePic" class="profile-pic" style="cursor: pointer;">
+                <img src="../views/images/profile-photo.jpg" alt="Profile" id="profilePic" class="profile-pic" style="cursor: pointer;">
             </div>
         </div>
     </nav>
@@ -133,114 +46,6 @@
     
     <div id="listingsContainer" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px;"></div>
 
-    <script>
-        let allListings = []; 
-
-        // --- UPDATE YOUR COLORS HERE ---
-        const palette = [
-            '#ffffff',  // Replace with your Color 1
-            '#e0f7fa',  // Replace with your Color 2
-            '#fff3e0'   // Replace with your Color 3
-        ];
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            await loadListings();
-            
-            // --- MENU TOGGLE LOGIC ---
-            const profilePic = document.getElementById('profilePic');
-            const slideMenu = document.getElementById('slideMenu');
-
-            profilePic.addEventListener('click', function(event) {
-                slideMenu.classList.toggle('open');
-                event.stopPropagation();
-            });
-
-            document.addEventListener('click', function(event) {
-                if (!slideMenu.contains(event.target) && event.target !== profilePic) {
-                    slideMenu.classList.remove('open');
-                }
-            });
-
-            // --- FILTER TOGGLE ---
-            document.getElementById('filterIcon').addEventListener('click', () => {
-                document.getElementById('filterDropdown').classList.toggle('show');
-            });
-
-            // --- SEARCH LOGIC ---
-            document.getElementById('searchBtn').addEventListener('click', runSearch);
-            document.getElementById('searchInput').addEventListener('keyup', (e) => {
-                if(e.key === 'Enter') runSearch();
-            });
-        });
-
-        async function loadListings() {
-            try {
-                const response = await fetch('/home/listings');
-                allListings = await response.json();
-                displayListings(allListings);
-            } catch (err) {
-                console.error("Failed to load listings");
-            }
-        }
-
-        function displayListings(listings) {
-            const container = document.getElementById('listingsContainer');
-            container.innerHTML = '';
-
-            if (listings.length === 0) {
-                container.innerHTML = '<h3>No listings available at this time</h3>';
-                return;
-            }
-
-            listings.forEach((item, index) => {
-                const imageUrl = (item.images && item.images.length > 0) ? item.images[0] : '/default.png';
-                
-                // --- COLOR CYCLING LOGIC ---
-                // Uses the index to pick 0, 1, or 2 from the palette array
-                const cardColor = palette[index % palette.length];
-
-                const card = `
-                    <div class="card" onclick="window.location.href='/product/${item._id}'" style="background-color: ${cardColor};">
-                        <img src="${imageUrl}">
-                        <div>
-                            <h3 style="margin: 0 0 5px 0;">${item.title}</h3>
-                            <p style="font-weight: bold; color: #2ecc71; margin: 0;">$${item.price}</p>
-                            <p style="color: grey; font-size: 0.9em; margin-top: 5px;">${item.type}</p>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += card;
-            });
-        }
-
-        function runSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = allListings.filter(item => 
-                item.title.toLowerCase().includes(query)
-            );
-            displayListings(filtered);
-        }
-
-        function filterListings(type) {
-            document.getElementById('filterDropdown').classList.remove('show');
-            
-            if (type === 'All') {
-                displayListings(allListings);
-            } else {
-                const filtered = allListings.filter(item => item.type === type);
-                displayListings(filtered);
-            }
-        }
-
-        // Close dropdown when clicking outside
-        window.onclick = function(event) {
-            if (!event.target.matches('#filterIcon')) {
-                var dropdowns = document.getElementsByClassName("filter-container")[0].getElementsByTagName("div")[0];
-                if (dropdowns.classList.contains('show')) {
-                    dropdowns.classList.remove('show');
-                }
-            }
-        }
-    </script>
+    <script src="../home.js"></script>
 </body>
 </html>

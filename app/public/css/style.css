@@ -2,7 +2,7 @@
 body {
     font-family: "Arial", sans-serif;
     /* Looks for the file at app/public/Paper-Texture-3.jpeg */
-    background-image: url('/paper-texture.jpg');
+    background-image: url('../views/images/Paper-Texture-3.jpg');
     background-size: cover;       /* Ensures image covers the whole screen */
     background-position: center;  /* Centers the image */
     background-attachment: fixed; /* Keeps background still while scrolling */
@@ -148,4 +148,89 @@ body {
 .delete-btn:hover {
     transform: scale(1.1);
     opacity: 1;
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-right: 20px;
+}
+
+.search-container {
+    display: flex;
+}
+
+#searchInput {
+    padding: 5px;
+    border-radius: 4px 0 0 4px;
+    border: 1px solid #ccc;
+}
+
+#searchBtn {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-left: none;
+    background: #eee;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Filter Styles */
+.filter-container {
+    position: relative;
+    cursor: pointer;
+}
+
+#filterDropdown {
+    display: none; 
+    position: absolute;
+    right: 0;
+    top: 40px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    width: 150px;
+}
+
+#filterDropdown div {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+#filterDropdown div:hover {
+    background-color: #f0f0f0;
+}
+
+.show {
+    display: block !important;
+}
+
+/* --- CARD STYLES --- */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 8px; 
+    width: 250px;           
+    height: 380px;          
+    padding: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%; 
+    height: 250px; /* Fixed height for image */
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }

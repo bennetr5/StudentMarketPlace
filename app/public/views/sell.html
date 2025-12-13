@@ -14,7 +14,7 @@
             <a href="/sell">List an Item</a>
         </div>
         <div class="nav-profile">
-            <img src="/profile-photo.jpg" alt="Profile" id="profilePic" class="profile-pic">
+            <img src="../views/images/profile-photo.jpg" alt="Profile" id="profilePic" class="profile-pic">
         </div>
     </nav>
 
@@ -37,19 +37,6 @@
         <br><br>
         <textarea style="resize: none;" rows="10" cols="40" placeholder="Enter a short description here" name="description" id="itemDescID"></textarea>
         <span style="font-size: 12px" id="charCount">0/200</span>
-        <script>
-            const chars = document.getElementById("charCount")
-            const desc = document.getElementById("itemDescID")
-            desc.addEventListener("input", function(){
-                chars.innerText = desc.value.length + "/200"
-                if (desc.value.length > 200) {
-                    chars.style.color = "red"
-                }
-                else {
-                    chars.style.color = "black"
-                }
-            })
-        </script>
         <br><br>
         Product Type: <select name="productType" id="typeID">
             <option value=""></option>
@@ -64,21 +51,5 @@
         <input type="button" value="List Item" id="listBtn">
     </form>
     <script src="../sell.js"></script>
-
-    <script>
-        const profilePic = document.getElementById('profilePic');
-        const slideMenu = document.getElementById('slideMenu');
-
-        profilePic.addEventListener('click', function(event) {
-            slideMenu.classList.toggle('open');
-            event.stopPropagation();
-        });
-
-        document.addEventListener('click', function(event) {
-            if (!slideMenu.contains(event.target) && event.target !== profilePic) {
-                slideMenu.classList.remove('open');
-            }
-        });
-    </script>
 </body>
 </html>

@@ -45,53 +45,6 @@
         </form>
     </div>
 
-    <script>
-        // 1. Get Product ID from URL (e.g., /edit?id=12345)
-        const urlParams = new URLSearchParams(window.location.search);
-        const productId = urlParams.get('id');
-
-        // 2. Fetch existing data and fill the form
-        async function loadData() {
-            const response = await fetch(`/api/product?id=${productId}`);
-            const product = await response.json();
-
-            if (product.error) {
-                alert("Product not found");
-                window.location.href = '/profile';
-            }
-
-            document.getElementById('title').value = product.title;
-            document.getElementById('price').value = product.price;
-            document.getElementById('type').value = product.type;
-            document.getElementById('description').value = product.description;
-        }
-
-        // 3. Handle Update
-        document.getElementById('editForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const updatedData = {
-                title: document.getElementById('title').value,
-                price: document.getElementById('price').value,
-                type: document.getElementById('type').value,
-                description: document.getElementById('description').value
-            };
-
-            const res = await fetch(`/api/product/${productId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedData)
-            });
-
-            if (res.ok) {
-                alert("Listing updated!");
-                window.location.href = '/profile';
-            } else {
-                alert("Failed to update.");
-            }
-        });
-
-        loadData();
-    </script>
+    <script src="../edit.js"></script>
 </body>
 </html>
