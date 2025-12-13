@@ -5,10 +5,9 @@ async function loadProduct() {
     if (!id) window.location.href = '/home';
 
     try {
+        // Get product details from backend
         const res = await fetch(`/api/product/${id}`);
         const data = await res.json();
-
-        console.log(data)
 
         if (data.error) {
             document.body.innerHTML = "<h1>Product not found</h1>";
@@ -21,16 +20,16 @@ async function loadProduct() {
         document.getElementById('prodType').innerText = data.type
         document.getElementById('prodDesc').innerText = data.description
         
-        // Handle Seller Email
+        // Gets seller email for contacting to buy
         if (data.seller && data.seller.email) {
             const emailLink = document.getElementById('sellerEmail');
-            emailLink.innerText = data.seller.email;
+            emailLink.innerText = " Contact the Seller"
             emailLink.href = `mailto:${data.seller.email}`;
         } else {
             document.getElementById('sellerEmail').innerText = "Contact info unavailable";
         }
 
-        // Handle Image
+        // Loads images for listing
         const imgContainer = document.getElementById('imageContainer');
         if (data.images && data.images.length > 0) {
             // Just showing the first image for now

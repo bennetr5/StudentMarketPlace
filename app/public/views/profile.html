@@ -14,7 +14,7 @@
             <a href="/profile" id="usernameDisplay">My Listings</a>
         </div>
         <div class="nav-profile">
-            <img src="/profile-photo.jpg" alt="Profile" id="profilePic" class="profile-pic">
+            <img src="../views/images/profile-photo.jpg" alt="Profile" id="profilePic" class="profile-pic">
         </div>
     </nav>
 
@@ -30,21 +30,5 @@
     <div id="userListings"></div>
 
     <script src="../profile.js"></script>
-
-    <script>
-        const profilePic = document.getElementById('profilePic');
-        const slideMenu = document.getElementById('slideMenu');
-
-        profilePic.addEventListener('click', function(event) {
-            slideMenu.classList.toggle('open');
-            event.stopPropagation();
-        });
-
-        document.addEventListener('click', function(event) {
-            if (!slideMenu.contains(event.target) && event.target !== profilePic) {
-                slideMenu.classList.remove('open');
-            }
-        });
-    </script>
 </body>
 </html>

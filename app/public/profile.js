@@ -3,9 +3,24 @@ document.addEventListener('DOMContentLoaded', () => {
     loadListings();
 });
 
-// 1. Fetch User Info (Optional: updates the name in the nav)
 async function loadUserProfile() {
     try {
+        const profilePic = document.getElementById('profilePic');
+        const slideMenu = document.getElementById('slideMenu');
+
+        profilePic.addEventListener('click', function(event) {
+            slideMenu.classList.toggle('open');
+            event.stopPropagation();
+        });
+
+        // Open/Close menu
+        document.addEventListener('click', function(event) {
+            if (!slideMenu.contains(event.target) && event.target !== profilePic) {
+                slideMenu.classList.remove('open');
+            }
+        });
+        
+        // Gets username from backend and displays on profile
         const res = await fetch('/api/user');
         const user = await res.json();
         if (user.username) {
@@ -16,29 +31,29 @@ async function loadUserProfile() {
     }
 }
 
-// 2. Fetch and Display Listings
+// Fetch and Display Listings
 async function loadListings() {
     const container = document.getElementById('userListings');
     
     try {
+        // Get user's listings from backend
         const response = await fetch('/api/profile/listings');
         if (!response.ok) throw new Error("Failed to fetch listings");
         
         const listings = await response.json();
 
+        // Checks for no listings
         if (listings.length === 0) {
             container.innerHTML = "<p>You haven't listed anything yet.</p>";
             return;
         }
 
-        // Generate HTML for each listing
         container.innerHTML = listings.map(item => {
-            // Handle image path (use the first image if available)
             const imageUrl = (item.images && item.images.length > 0) 
                 ? item.images[0] 
-                : '/images/default-placeholder.png'; // Fallback image
+                : '/images/default-placeholder.png'; // Default image
 
-    // Inside loadListings()...
+    // Creates listing card for page
             return `
                 <div class="listing-card" style="border: 1px solid #ccc; padding: 10px; margin: 10px; display: inline-block; vertical-align: top; width: 200px;">
                     <img src="${imageUrl}" alt="${item.title}" style="width: 100%; height: 150px; object-fit: cover;">
@@ -64,24 +79,22 @@ async function loadListings() {
     }
 }
 
-// 3. Handle Delete Action
-// This function is called when the red 'Delete' button is clicked
+// Delete Listing
 async function deleteItem(id) {
     if (!confirm("Are you sure you want to delete this item?")) {
         return;
     }
 
     try {
-        // Send DELETE request to the server
+        // Send Delete request to Backend
         const response = await fetch(`/api/profile/listings/${id}`, {
             method: 'DELETE'
         });
 
         if (response.ok) {
-            // Success: Reload the page to see changes
+            // Success then reload to update
             window.location.reload();
         } else {
-            // Error: Show message from server
             const data = await response.json();
             alert(data.error || "Failed to delete item.");
         }

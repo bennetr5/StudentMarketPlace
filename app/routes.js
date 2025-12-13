@@ -30,32 +30,26 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// --- VIEW ROUTES (Serve HTML Pages) ---
 router.get('/', redirectLogin)
 router.get('/login', login)
 router.get('/signup', signup)
 
-// Protected Views (Require Login)
 router.get('/home', checkAuth, homePage)
 router.get('/sell', checkAuth, sell)
 router.get('/profile', checkAuth, profile)
 router.get('/product', checkAuth, product) 
 
-// --- API ROUTES (Data for Frontend JS) ---
-router.get('/home/listings', checkAuth, getListings)            // Feeds home.html
-router.get('/api/profile/listings', checkAuth, getUserListings) // Feeds profile.html
-router.get('/product/:id', checkAuth, product)           // Feeds product.html
-router.get('/api/product/:id', checkAuth, getProductData)           // Feeds product.html
+router.get('/home/listings', checkAuth, getListings)
+router.get('/api/profile/listings', checkAuth, getUserListings)
+router.get('/product/:id', checkAuth, product)
+router.get('/api/product/:id', checkAuth, getProductData)
 
-// Delete Route
 router.delete('/api/profile/listings/:id', checkAuth, deleteListing);
 
-// Serve the Edit Page (View)
 router.get('/edit', checkAuth, editPage);
-// API Route to Update the Item (PUT)
+
 router.put('/api/product/:id', checkAuth, updateItem);
 
-// Simple API to get current user info
 router.get('/api/user', checkAuth, (req, res) => {
     res.json({
         id: req.user._id,
@@ -64,17 +58,14 @@ router.get('/api/user', checkAuth, (req, res) => {
     })
 })
 
-// --- ACTION ROUTES (Form Submissions) ---
 router.post('/sell', upload.array('images', 10), listItem)
 router.post('/signup', createAccount)
 router.post('/logout', logout) 
 
-// Login Handling (Uses Passport Strategy)
 router.post('/login', validateLogin,
     passport.authenticate('local', {
         successRedirect: '/home',
         failureRedirect: '/login',
-        // failureMessage: true 
     })
 )
 

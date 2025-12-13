@@ -6,18 +6,18 @@ import Product from '../../models/product.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Serve the HTML file
+// Loads profile.html
 export async function profile(req, res) {
     res.sendFile(path.join(__dirname, "../public/views/profile.html"))
 }
 
-// Return all products for the logged-in user
+// Gets all the logged in user's products
 export async function getUserListings(req, res) {
     try {
         if (!req.user) {
             return res.status(401).json({ error: "Not logged in" })
         }
-        // Fetch listings belonging to the current user
+        // Gets listings of user and sends to front end
         const listings = await Product.find({ seller: req.user._id })
         return res.json(listings)
     } catch (err) {
@@ -26,26 +26,27 @@ export async function getUserListings(req, res) {
     }
 }
 
-// NEW: Delete a listing
+// Deletes listing
 export async function deleteListing(req, res) {
-    const listingId = req.params.id; // We will get ID from the URL
+    // Gets listing Id from request
+    const listingId = req.params.id;
 
     try {
+        // Searches for product in DB
         const product = await Product.findById(listingId);
 
         if (!product) {
             return res.status(404).json({ error: "Product not found" });
         }
 
-        // SECURITY: Check if the logged-in user owns this product
+        // Double check if user owns product
         if (!product.seller.equals(req.user._id)) {
             return res.status(403).json({ error: "Unauthorized: You do not own this item" });
         }
 
-        // 1. Delete image files from the server folder
+        // Delete accociated images from uploads folder
         if (product.images && product.images.length > 0) {
             product.images.forEach(imagePath => {
-                // images are stored as "/uploads/filename.jpg", so we parse that
                 const filename = imagePath.split('/').pop();
                 const fullPath = path.join(__dirname, '../models/uploads', filename);
 
@@ -55,11 +56,11 @@ export async function deleteListing(req, res) {
             });
         }
 
-        // 2. Remove the reference from the User's 'listings' array
+        // Remove listing from user DB
         req.user.listings.pull(product._id);
         await req.user.save();
 
-        // 3. Delete the actual product from DB
+        // Delete product from products DB
         await Product.deleteOne({ _id: listingId });
 
         console.log(`Deleted listing ${listingId}`);
